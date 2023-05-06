@@ -1,22 +1,39 @@
 """
-API Description: ResNet18(Object)
+**********************************API Description********************************** 
 
+1)  ResNet18(Object): Creates a ResNet18 network using Residual Blocks
+
+net = ResNet18(in_channels = 3, ResBlock, outputs = 10)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-net = ResNet18(3, ResBlock, outputs = 10)
 net.to(device) 
 
 
-API Description: NetTrain()
+2)  NetTrain(): Trains one epoch of the neural network.
 
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr, momentum, weight_decay)
-
 train_loss, train_acc = NetTrain(net, trainloader, device, optimizer, criterion)
 
+net: Neural Network
+trainloader: Dataloader containing the train dataset
+device: cuda or cpu which ever is available.
+optimizer: Optimization technique used
+criterion: Loss function to be minimized
 
-API Description: NetTest()
 
-test_loss , test_acc = NetTest(net, testloader, device, criterion)
+3)  NetTest(): Tests the model on the test dataset
+
+test_loss , test_acc, predictions, labels = NetTest(net, testloader, device,
+criterion)
+
+net: Neural Network
+testloader: Dataloader containing the test dataset
+device: cuda or cpu which ever is available.
+criterion: Loss function to be minimized
+predictions: A Python list returned by the method containing the predictions 
+made by the model.
+labels: A Python list returned by the method containing the true labels of the 
+test dataset.
 
 """
 
@@ -147,6 +164,9 @@ def NetTest(net, testloader, device, criterion):
   test_loss = 0
   correct = 0
   total = 0
+    
+  predictions = []
+  labels = []
 
   with torch.no_grad():
     for batch_idx, (inputs, targets) in enumerate(testloader):
@@ -160,8 +180,11 @@ def NetTest(net, testloader, device, criterion):
 
       total += targets.size(0)
       correct += predicted.eq(targets).sum().item()
+      
+      predictions.extend(predicted.cpu())
+      labels.extend(targets.cpu())
 
   test_acc = 100. * correct / total
   test_loss = test_loss / len(testloader)
 
-  return test_loss, test_acc
+  return test_loss, test_acc, predictions, labels
