@@ -1,5 +1,9 @@
 """
-API Description: NonSytheticDataset(Object)
+********************************API Description******************************** 
+
+1)  NonSytheticDataset(Object): Dataset Handler class to remove 99% of the cat 
+images and then add them back using non-synthtic generation techniques on the 
+remaining 1% images.
 
 train_transform = transforms.Compose([transforms.RandomCrop(32,
                                                             padding = 4),
