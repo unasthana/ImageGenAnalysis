@@ -6,7 +6,7 @@ In this project, we investigate using generative models such as GAN and Stable D
 
 ##Code Structure
 
-'''
+```
 ├── ...
 ├── GAN # Source files for GAN code
 │ ├── gan_model.py # contains functions for the Generator and Discriminator
@@ -23,4 +23,4 @@ In this project, we investigate using generative models such as GAN and Stable D
 │   ├── 
 │   └── 
 │   └── 
-'''
+```
