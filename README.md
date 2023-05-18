@@ -12,6 +12,7 @@ Upon evaluating our own customized version of the CIFAR-10 dataset, we observe t
 ├── ...
 ├── datasets
 │ ├── stable_diffusion_dataset.npy #dataset for stable diffusion generated images
+│ ├── gan_dataset.npy #dataset for GAN generated images
 |
 |
 |── images
