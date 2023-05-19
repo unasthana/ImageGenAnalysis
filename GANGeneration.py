@@ -1,3 +1,26 @@
+"""
+**********************************API Description********************************** 
+
+1)  GANDataset(torchvision.datasets.CIFAR10): Inherits torchvision.datasets.CIFAR10 
+class and removes 99% of the cat images and then replinishes it with new GAN 
+generated images.
+
+train_transform = transforms.Compose([transforms.RandomCrop(32,
+                                                            padding = 4),
+                                      transforms.RandomHorizontalFlip(), 
+                                      transforms.ToTensor(), 
+                                      transforms.Normalize(CIFAR_10_MEANS,
+                                                            CIFAR_10_STDS)])
+trainset = GANDataset(netG, root = './data', train = True, 
+                               transform = train_transform,
+                               download = True) 
+                               
+netG: Generator model instance
+train_transform: Image transformations that are applied to the dataset.
+
+"""
+
+
 import random
 import numpy as np
 import torch
@@ -40,8 +63,7 @@ class GANDataset(torchvision.datasets.CIFAR10):
     def generate_data(self, data, targets, generator):
 
         """
-        Use the remaining 50 cat images to create 4950 new cat images and add 
-        them to the dataset.
+        Use the trained GAN to create 4950 new cat images and add them to the dataset.
         """
 
         nz = 100
@@ -80,7 +102,7 @@ class GANDataset(torchvision.datasets.CIFAR10):
     def add_augmentation(self, data):
 
         """
-        Create a new augmented image using the input image.
+        Resize the GAN generated image to 32x32.
         """
 
         # Define the transformations to be applied
