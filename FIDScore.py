@@ -1,3 +1,37 @@
+"""
+**********************************API Description********************************** 
+
+1)  InceptionV3(nn.Module): Creates an instance of the InceptionV3 network that
+returns feature maps of the imput images.
+
+block_idx = InceptionV3.BLOCK_INDEX_BY_DIM[2048]
+model = InceptionV3([block_idx])
+model = model.cuda()
+
+block_idx: Maps feature dimensionality to their output blocks indices.
+
+
+2)  calculate_activation_statistics(): Models the data distribution for these 
+features using a multivariate Gaussian distribution with mean µ and covariance Σ.
+
+mu_1, std_1 = calculate_activation_statistics(images_real, InceptionV3(nn.Module), 
+                                                cuda = True)
+                                               
+mu_1: Returned mean after modelling using a multivariate Gaussian distribution.
+std_1: Returned standard deviation after modelling using a multivariate Gaussian 
+       distribution.
+       
+       
+3)  calculate_frechet_distance: Calculates the Wasserstein-2 distance for the mean 
+and covariance of real images and generated images.
+
+fid_value = calculate_frechet_distance(mu_1, std_1, mu_2, std_2)
+
+fid_value: Fretchet Inception Distance (FID) score. 
+
+"""
+
+
 import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
