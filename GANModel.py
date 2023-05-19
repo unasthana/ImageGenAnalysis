@@ -1,5 +1,65 @@
+"""
+**********************************API Description********************************** 
 
-# Commented out IPython magic to ensure Python compatibility.
+1)  Generator(nn.Module): Creates an instance of the Generator model for GAN.
+
+netG = Generator(NGPU).to(DEVICE)
+
+NGPU: No. of GPUs available
+DEVICE: Instance of the available GPU system
+
+
+2)  Discriminator(nn.Module): Creates an instance of the Discriminator model for GAN.
+
+netD = Discriminator(NGPU).to(DEVICE)
+
+NGPU: No. of GPUs available
+DEVICE: Instance of the available GPU system
+
+
+3)  weights_init(): Initializes custom weights on Generator and Discriminator
+instances.
+
+netG.apply(weights_init)
+netD.apply(weights_init)
+
+netG: Generator Instance
+netD: Discriminator Instance
+
+
+4)  GANTrainInit(): Adds label smoothening for GAN training process and initializes
+the InceptionV3 model for calculation of FID scores.
+
+real_label, fake_label, nz, ngf, model = GANTrainInit()
+
+real_label: Smoothened real label that tells the Discriminator that the image is real.
+fake_label: Smoothened fake label that tells the Discriminator that the image is fake.
+nz: Size of latent vector used for Image generation.
+ngf: Feature map size in generator
+model: InceptionV3 instance
+
+
+5)  GANTrain(): Performs adversarial training of Generator and Discriminator models.
+
+G_losses, D_losses, FID_scores = GANTrain(netG, netD, criterion, 
+                                          optimizerG, optimizerD, 
+                                          dataloader, GAN_EPOCHS, DEVICE)
+
+netG: Generator Instance
+netD: Discriminator Instance
+criterion: Loss function (Binary Cross Entropy used here)
+optimizerG: Optimizer used for Generator model (Adam used here)
+optimizerD: Optimizer used for Discriminator model (Adam used here)
+dataloader: Dataloader containing the train dataset
+GAN_EPOCHS: No. of epochs for which adversarial training is performed
+DEVICE: Instance of the available GPU system
+G_losses: List containing Train losses of the Generator model
+D_losses: List containing Train losses of the Discriminator model
+FID_scores: List containing all the FID scores during the training process
+
+"""
+
+
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
@@ -104,21 +164,22 @@ class Discriminator(nn.Module):
 
 def weights_init(m):
     classname = m.__class__.__name__
+    
     if classname.find('Conv') != -1:
         nn.init.normal_(m.weight.data, 0.0, 0.02)
+        
     elif classname.find('BatchNorm') != -1:
+        
         nn.init.normal_(m.weight.data, 1.0, 0.02)
         nn.init.constant_(m.bias.data, 0)
 
 def GANTrainInit():
-
+    
     # Establish convention for real and fake labels during training
-
     real_label = 1
     fake_label = 0
 
     # Adding Label Smoothening
-
     real_label = 0.9
     fake_label = 0.1
 
