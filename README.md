@@ -20,9 +20,11 @@ Upon evaluating our own customized version of the CIFAR-10 dataset, we observe t
 |
 |
 |── images
-| ├── cm_nsd.png #confusion matrix for non-synthetic images
-| ├── cm_gan.png #confusion matrix for GAN images
-| ├── cm_stable.png #confusion matrix for stable diffusion images
+| ├── cm_nsd.png #Confusion matrix for non-synthetic images
+| ├── cm_gan.png #Confusion matrix for GAN images
+| ├── cm_stable.png #Confusion matrix for stable diffusion images
+| ├── fid.png #FID score vs epoch curve
+| ├── gan_training_loss.png #GAN training loss curve
 | ├── test_nsd.png #test loss and accuracy for non-synthetic images
 | ├── test_gan.png #test loss and accuracy for GAN images
 | ├── test_stable.png #test loss and accuracy for stable diffusion images
