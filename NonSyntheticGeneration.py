@@ -32,7 +32,7 @@ import numpy as np
 class NonSyntheticDataset(torchvision.datasets.CIFAR10):
 
     def __init__(self, root, train = True, transform = None, 
-                 target_transform = None, download = False):
+                 target_transform = None, download = False, generate = True):
         super().__init__(root, train = train, transform = transform,
                          target_transform = target_transform, 
                          download = download)
@@ -41,10 +41,10 @@ class NonSyntheticDataset(torchvision.datasets.CIFAR10):
             self.data, self.targets = self.create_imbalance(self.data,
                                                             self.targets)
             
-            self.data, self.targets = self.generate_data(self.data,
+            if generate == True:
+                self.data, self.targets = self.generate_data(self.data,
                                                          self.targets)
-
-    
+            
     def create_imbalance(self, data, targets):
 
         """

@@ -37,6 +37,9 @@ target_names: Python list containing class names corresponding to each label.
 
 # Necessary Imports
 
+import torch
+import numpy as np
+import torchvision.utils as vutils
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import ConfusionMatrixDisplay
@@ -95,3 +98,40 @@ def plot_confusion_matrix(labels, predictions, target_names):
   
   cm.plot(values_format = 'd', cmap = 'Blues', ax = ax)
   plt.xticks(rotation = 20)
+
+def plot_gan_metrics(G_losses, D_losses):
+
+  plt.figure(figsize = (10, 5))
+  plt.title("Generator and Discriminator Loss During Training")
+  
+  plt.plot(G_losses, label = "Generator")
+  plt.plot(D_losses, label = "Discriminator")
+  
+  plt.xlabel("Epoch")
+  plt.ylabel("Loss")
+  
+  plt.legend()
+  plt.tight_layout()
+
+def plot_fid_score(FID_scores):
+
+  plt.figure(figsize = (10, 5))
+  plt.title("Fretchet Distance Vs Epochs")
+
+  plt.plot(FID_scores , label = "FID Score")
+
+  plt.xlabel("Epoch")
+  plt.ylabel("Fretchet Distance")
+  
+  plt.legend()
+  plt.tight_layout()
+
+def show_images(fake_display):
+
+  plt.figure(figsize = (8, 8))
+  plt.axis("off")
+
+  pictures = vutils.make_grid(fake_display[torch.randint(len(fake_display), (64,))], nrow = 8, padding = 2, normalize = True)
+  plt.imshow(np.transpose(pictures,(1,2,0)))
+
+  plt.show()
