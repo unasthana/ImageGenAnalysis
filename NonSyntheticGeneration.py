@@ -15,7 +15,9 @@ train_transform = transforms.Compose([transforms.RandomCrop(32,
 
 trainset = NonSyntheticDataset(root = './data', train = True, 
                                transform = train_transform,
-                               download = True)
+                               download = True, generate = True)
+
+generate: Flag that tells whether to generate new data or not.
 
 """
 
